@@ -19,7 +19,7 @@ npm run build
 ## 2. Supabase (Postgres + Auth)
 
 1. Crie um projeto em <https://supabase.com>.
-2. **Database → Connection string**: copie a URL *pooler* (transacional, porta 6543) e a *direct*
+2. **Database → Connection string**: copie a URL _pooler_ (transacional, porta 6543) e a _direct_
    (porta 5432):
 
    ```bash
@@ -88,6 +88,7 @@ O schema é idempotente (`create table if not exists`, `create index if not exis
 
    > `ExposeHeaders: ["ETag"]` é importante: o cliente precisa do ETag de cada parte para
    > concluir o multipart upload.
+
 5. Variáveis:
 
    ```bash
@@ -133,7 +134,7 @@ npm run bootstrap:admin
    **Google Drive API**.
 2. Configure a tela de consentimento OAuth (interno ou externo) e adicione o escopo
    `https://www.googleapis.com/auth/drive.readonly`.
-3. Crie um **OAuth Client ID** do tipo *Web application*:
+3. Crie um **OAuth Client ID** do tipo _Web application_:
    - Authorized redirect URI: `https://<seu-dominio>/api/integrations/google-drive/callback`
    - Authorized JavaScript origins: `https://<seu-dominio>`
 4. Variáveis:
@@ -167,7 +168,7 @@ Limites da Bot API: documentos até 50 MB, fotos até 10 MB, vídeos até 50 MB.
 
 ## 8. Provedor de IA
 
-A camada de abstração implementa o protocolo *chat completions* da OpenAI, compatível com OpenAI,
+A camada de abstração implementa o protocolo _chat completions_ da OpenAI, compatível com OpenAI,
 Groq, OpenRouter, Together, DeepSeek, Ollama e afins.
 
 ```bash
@@ -178,7 +179,7 @@ AI_MODEL=gpt-4o-mini
 ```
 
 Ou configure pela tela **Integrações → Inteligência artificial** (a chave é cifrada por usuário).
-Sem IA configurada, o módulo *Salvar conteúdo* continua funcionando com heurísticas locais e informa
+Sem IA configurada, o módulo _Salvar conteúdo_ continua funcionando com heurísticas locais e informa
 isso na interface.
 
 ---
@@ -199,17 +200,24 @@ resultado fictício é exibido**.
 
 ```bash
 npm i -g vercel
+vercel login
 vercel link
 vercel env add DATABASE_URL production
 vercel env add SESSION_SECRET production        # openssl rand -base64 48
 vercel env add INTEGRATION_ENCRYPTION_KEY production   # openssl rand -hex 32
 vercel env add AUTH_DRIVER production
+vercel env add NEXT_PUBLIC_APP_URL production   # ex.: https://acervo-digital.vercel.app
 vercel env add SUPABASE_SERVICE_ROLE_KEY production
 vercel env add NEXT_PUBLIC_SUPABASE_URL production
 vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY production
+vercel env add CRON_SECRET production           # protege /api/jobs/cleanup
 # ... demais variáveis opcionais
 vercel deploy --prod
 ```
+
+> **Plano Hobby**: a Vercel só aceita cron **diário** nesse plano. O `vercel.json` declara
+> `0 * * * *` (de hora em hora), que exige Pro — no Hobby o deploy falha na validação. Para o Hobby,
+> troque o `schedule` por `0 3 * * *`; para manter de hora em hora, use Pro.
 
 Após o deploy:
 
