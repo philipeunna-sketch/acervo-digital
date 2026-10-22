@@ -202,4 +202,11 @@ export function FilePreviewDialog({
               {index + 1} de {files.length}
             </span>
             <Button variant="ghost" size="sm" onClick={() => goTo(1)}>
-              Proxim
+              Proxima <ChevronRight aria-hidden />
+            </Button>
+          </div>
+        ) : null}
+      </DialogContent>
+    </Dialog>
+  );
+}

@@ -48,3 +48,6 @@ blob-report/
 
 # vercel
 .vercel
+
+# ferramentas
+.playwright-mcp/

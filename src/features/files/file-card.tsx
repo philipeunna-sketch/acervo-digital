@@ -108,4 +108,9 @@ export function FileCard({
           <p className="mt-0.5 text-xs text-muted-foreground">
             {formatBytes(file.size_bytes)} · {formatDate(file.created_at)}
           </p>
-        </
+        </div>
+        <FileActions file={file} onPreview={onPreview} onEdit={onEdit} onChanged={onChanged} />
+      </div>
+    </div>
+  );
+}

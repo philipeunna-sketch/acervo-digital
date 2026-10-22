@@ -77,4 +77,9 @@ export function FileRow({
         {showStatus ? file.status : formatDate(file.created_at)}
       </span>
 
-      <div className="flex justify-e
+      <div className="flex justify-end">
+        <FileActions file={file} onPreview={onPreview} onEdit={onEdit} onChanged={onChanged} />
+      </div>
+    </div>
+  );
+}

@@ -257,4 +257,9 @@ export function AlbumDetail(): React.JSX.Element {
             </div>
           ))}
         </div>
-      
+      )}
+
+      <FilePreviewDialog file={preview} files={files} onClose={() => setPreview(null)} onChanged={refresh} />
+    </div>
+  );
+}

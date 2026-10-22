@@ -462,4 +462,12 @@ export function SaveContentView(): React.JSX.Element {
                     A origem nao disponibilizou midias acessiveis. Verifique as notas acima - algumas plataformas
                     exigem credencial de API oficial para expor o conteudo.
                   </p>
-               
+                </div>
+              </CardContent>
+            </Card>
+          ) : null}
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
