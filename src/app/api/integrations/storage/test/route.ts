@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/session";
 import { handleError, json, jsonError } from "@/lib/api/http";
 import { withUser } from "@/lib/db/client";
-import { resolveStorageProvider, getProviderRow, invalidateStorageCache } from "@/lib/storage/registry";
+import { resolveStorageProvider, invalidateStorageCache } from "@/lib/storage/registry";
 import { logAudit } from "@/lib/db/repo/audit";
 
 export const runtime = "nodejs";

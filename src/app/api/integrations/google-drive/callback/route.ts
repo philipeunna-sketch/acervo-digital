@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/session";
-import { handleError } from "@/lib/api/http";
 import { exchangeCode } from "@/lib/integrations/google-drive/client";
 import { withUser } from "@/lib/db/client";
 import { upsertIntegration } from "@/lib/db/repo/integrations";

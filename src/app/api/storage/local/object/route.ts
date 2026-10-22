@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { stat } from "node:fs/promises";
 import { createReadStream } from "node:fs";
 import { Readable } from "node:stream";

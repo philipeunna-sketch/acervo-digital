@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/session";
-import { handleError, json, jsonError, parseJsonBody } from "@/lib/api/http";
-import { aiConfigSchema } from "@/lib/validation/schemas";
+import { handleError, json, jsonError } from "@/lib/api/http";
 import { withUser } from "@/lib/db/client";
 import { upsertIntegration } from "@/lib/db/repo/integrations";
 import { decryptSecret } from "@/lib/security/crypto";

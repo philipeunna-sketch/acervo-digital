@@ -8,7 +8,6 @@ import { resolveStorageProvider } from "@/lib/storage/registry";
 import { buildStorageKey } from "@/lib/storage/keys";
 import { getEnv } from "@/lib/env";
 import {
-  categoryOf,
   extensionOf,
   isAllowedUpload,
   isMimeConsistent,
@@ -27,19 +26,29 @@ export async function POST(request: Request): Promise<NextResponse> {
     if (!user) return jsonError("Nao autenticado.", 401);
 
     const env = getEnv();
-    const limit = await rateLimit(`upload:${clientIdentifier(request, user.id)}`, {
-      limit: 300,
-      windowSeconds: 60,
-    });
-    if (!limit.allowed) return jsonError("Limite de uploads atingido. Aguarde um instante.", 429);
+    const limit = await rateLimit(
+      `upload:${clientIdentifier(request, user.id)}`,
+      {
+        limit: 300,
+        windowSeconds: 60,
+      },
+    );
+    if (!limit.allowed)
+      return jsonError("Limite de uploads atingido. Aguarde um instante.", 429);
 
     const input = await parseJsonBody(request, uploadInitiateSchema);
 
     if (!isAllowedUpload(input.fileName)) {
-      return jsonError(`Formato de arquivo nao suportado: .${extensionOf(input.fileName) || "?"}`, 415);
+      return jsonError(
+        `Formato de arquivo nao suportado: .${extensionOf(input.fileName) || "?"}`,
+        415,
+      );
     }
     if (!isMimeConsistent(input.fileName, input.mimeType)) {
-      return jsonError("O tipo declarado nao corresponde a extensao do arquivo.", 415);
+      return jsonError(
+        "O tipo declarado nao corresponde a extensao do arquivo.",
+        415,
+      );
     }
     if (input.size <= 0) return jsonError("Tamanho de arquivo invalido.", 400);
     if (input.size > env.MAX_UPLOAD_SIZE) {
@@ -50,17 +59,21 @@ export async function POST(request: Request): Promise<NextResponse> {
     }
 
     const mimeType = mimeFor(input.fileName, input.mimeType);
-    const extension = extensionOf(input.fileName);
-    const category = categoryOf(extension || input.fileName);
 
     const result = await withUser(user.id, async (db) => {
-      const provider = await resolveStorageProvider(db, user.id, input.providerId ?? null);
+      const provider = await resolveStorageProvider(
+        db,
+        user.id,
+        input.providerId ?? null,
+      );
       const key = buildStorageKey(user.id, input.fileName);
       const partSize = Math.max(5 * 1024 * 1024, env.MULTIPART_PART_SIZE);
       const partCount = Math.ceil(input.size / partSize);
 
       if (partCount > S3_MAX_PARTS) {
-        throw new Error("Arquivo excede o numero maximo de partes suportado pelo provedor.");
+        throw new Error(
+          "Arquivo excede o numero maximo de partes suportado pelo provedor.",
+        );
       }
 
       if (partCount <= 1) {

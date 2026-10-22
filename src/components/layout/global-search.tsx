@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { Search, FileText, FolderOpen, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils/cn";
 import { formatBytes } from "@/lib/utils/format";
 import type { FileRecord, AlbumRecord } from "@/types";
 

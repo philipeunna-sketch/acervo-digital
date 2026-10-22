@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/session";
 import { changePasswordSchema } from "@/lib/validation/schemas";
 import { handleError, json, jsonError, parseJsonBody } from "@/lib/api/http";
-import { clientIdentifier, rateLimit } from "@/lib/security/rate-limit";
+import { rateLimit } from "@/lib/security/rate-limit";
 import { logAudit } from "@/lib/db/repo/audit";
 import { readyDb } from "@/lib/db/client";
 

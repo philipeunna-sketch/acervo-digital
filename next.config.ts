@@ -5,11 +5,14 @@ import type { NextConfig } from "next";
  * `Content-Security-Policy` is intentionally strict: the app only talks to its
  * own origin plus the storage provider endpoints that are configured at runtime.
  */
+const isDev = process.env.NODE_ENV !== "production";
+
 const csp = [
   "default-src 'self'",
   // Next.js injects inline bootstrap scripts; 'unsafe-inline' is required for
   // the App Router runtime and is mitigated by `frame-ancestors 'none'`.
-  "script-src 'self' 'unsafe-inline' https://*.supabase.co",
+  // Em desenvolvimento o Fast Refresh precisa de 'unsafe-eval'.
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://*.supabase.co`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' blob: data: https:",
   "font-src 'self' data:",
@@ -25,6 +28,10 @@ const csp = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Pacotes que precisam rodar como `require` nativo do Node (fora do bundle):
+  //  - pglite: usa `import.meta.url` para resolver o worker e o FS nativo;
+  //  - postgres: usa sockets e dependências opcionais do pg.
+  serverExternalPackages: ["@electric-sql/pglite", "postgres", "mammoth"],
   experimental: {
     serverActions: {
       bodySizeLimit: "2mb",

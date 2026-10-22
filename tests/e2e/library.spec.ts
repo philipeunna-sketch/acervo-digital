@@ -1,6 +1,5 @@
 import { expect, test } from "@playwright/test";
 import path from "node:path";
-import { readFileSync } from "node:fs";
 
 /**
  * Upload real de um arquivo pela interface, com verificacao do progresso e da
