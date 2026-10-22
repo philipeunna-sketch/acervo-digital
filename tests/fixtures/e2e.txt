@@ -1,0 +1,2 @@
+Arquivo de teste utilizado pelos testes end-to-end (Playwright).
+Serve para verificar o upload real pela interface.

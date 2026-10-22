@@ -1,0 +1,20 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    {
+      "path": "/api/jobs/cleanup",
+      "schedule": "0 * * * *"
+    }
+  ],
+  "functions": {
+    "src/app/api/imports/commit/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/imports/analyze/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/integrations/google-drive/import/route.ts": {
+      "maxDuration": 60
+    }
+  }
+}
